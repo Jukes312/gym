@@ -1,5 +1,5 @@
-
-
+import { useContext } from 'react';
+import DataContext from './context/DataContext';
 import { FaLocationArrow} from 'react-icons/fa';
 import usePlacesAutocomplete,{ getGeocode,getLatLng }from 'use-places-autocomplete';
 import { Combobox,
@@ -8,17 +8,12 @@ import { Combobox,
     ComboboxList,
     ComboboxOption,
 } from '@reach/combobox';
-
 import { useState,useEffect } from 'react';
-
 import { AiOutlineLoading3Quarters} from 'react-icons/ai';
 
 
-
-
-
-const GymContent = ({places,setPostionn,gmap,postionn}) => {
-    
+const GymContent = () => {
+    const {setGymResults, placeslibrary,gmap,gymResults} = useContext(DataContext);
 
     const {
         value,
@@ -35,25 +30,19 @@ const GymContent = ({places,setPostionn,gmap,postionn}) => {
         type: ['gym']
     })
 
+    const [isLoading,setIsloading] = useState()
+
     useEffect(()=>{
-        places?.nearbySearch(objlocation, (results)=>{
-            setPostionn(results)
+        placeslibrary?.nearbySearch(objlocation, (results)=>{
+            setGymResults(results)
           })
         gmap?.panTo(objlocation?.location)
-        
-         
 
-        },[objlocation.location]);
-
-
-   
-    const [isLoading,setIsloading] = useState()
-   
+        },[objlocation,placeslibrary,gmap]);
 
     const handleSelect = async(val)=>{
       setValue(val,false);
       clearSuggestions();
-
       const results = await getGeocode({address:val})
       const {lat,lng} = await getLatLng(results[0]);
       setObjloaction({
@@ -74,13 +63,8 @@ const GymContent = ({places,setPostionn,gmap,postionn}) => {
                 type: ['gym']
               })
             
-        })
-          
+        })  
        }
-
-    
-    
-
 
  if(isLoading)return <AiOutlineLoading3Quarters className='isloading'/>
   return (
@@ -105,12 +89,12 @@ const GymContent = ({places,setPostionn,gmap,postionn}) => {
       USE MY LOCATION
     </button>
     <div className="gym-list" id="gyms-info">
-        {postionn?.map((value)=>
-        <section className="gym-list__content">
+        {gymResults?.map((value)=>
+        <section key={value.place_id} className="gym-list__content">
         <h1 className='gym-list__heading '>NAME:</h1>
         <p className="gym-list__name">{value.name}</p>
         <h1 className='gym-list__heading'>RATING:</h1>
-        <p className="gym-list__rating">{value.rating}</p>
+        <p className="gym-list__rating">{value.rating||'Not rated'}</p>
         </section>
         )}
     </div>

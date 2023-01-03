@@ -177,10 +177,16 @@ background-color: #0d86ca;
 background-color: #0d86ca;
 border-radius: 1rem;
 }
+
+::-webkit-scrollbar-thumb:hover{
+  background-color: lightblue;
+}
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 10px;
 }
+
+
 
 .isloading{
   color: white;
