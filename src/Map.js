@@ -1,4 +1,4 @@
-import {GoogleMap,MarkerF,InfoWindow} from '@react-google-maps/api';
+import {GoogleMap,MarkerF,InfoWindowF} from '@react-google-maps/api';
 import { useContext,useState } from 'react';
 import DataContext from './context/DataContext';
 import gymIcon from './fitness.png'
@@ -18,12 +18,12 @@ const Map = () => {
     <GoogleMap id="map" center={center} zoom={13} onLoad={(mappp) => OnMapLoad(mappp) }  >
        {gymResults?.map((obj)=> <MarkerF position={obj.geometry.location} key={obj.place_id} icon={{url:gymIcon}} onClick={()=> setSelectedMarker(obj)}/>)}
        {selectedMarker?(
-        <InfoWindow position={selectedMarker.geometry.location} onCloseClick={()=>setSelectedMarker(null)}>
+        <InfoWindowF position={selectedMarker.geometry.location} onCloseClick={()=>setSelectedMarker(null)}>
           <div>
             <h1>Name:</h1>
             <p>{selectedMarker.name}</p>
           </div>
-        </InfoWindow>
+        </InfoWindowF>
        ):null}
     </GoogleMap>
   )
