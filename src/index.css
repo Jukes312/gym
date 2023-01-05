@@ -57,33 +57,23 @@ code {
   overflow: hidden;
 } 
 
-.input-group .input-group-input {
-  border: 0;
-  flex-grow: 1;
-}
 
 .input .input-results{
-  color: white;
+color: white;
 list-style: none;
 font-size: 2rem;
 background-color: #0d86ca;
 }
 
-.input-results-result{
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
+
 .input-results-result:hover{
   cursor: pointer;
   color: black;
 }
 
-
-.input-group img {
-  margin: 0;
-  background-color: #0d86ca;
-  border-radius: 5rem;
-  padding: 10px;
+.input-results-result{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 
@@ -138,7 +128,7 @@ background-color: #0d86ca;
   font-size: 2rem;
 }
 
-#myLocation .My-loctation-icon {
+.My-loctation-icon {
   margin-right: 1rem;
 }
 
@@ -192,8 +182,8 @@ border-radius: 1rem;
   color: white;
   height: 30%;
   width: 30%;
-  margin-left: 50%;
-  margin-top: 50%;
+  margin-left: 30%;
+  margin-top: 30%;
   
 }
 
@@ -202,3 +192,48 @@ border-radius: 1rem;
   
   
 }
+
+
+
+@media screen and (max-width: 700px) {
+  .Local-gym-block {
+    overflow: hidden;
+  }
+  .Local-gym-block__content {
+    max-width: 370px;
+    margin: 0 auto;
+  }
+
+  .input-group {
+    max-width: inherit;
+  }
+
+  .input{
+    width: 90%;
+  }
+
+  .input-group {
+    width: 20vw;
+  }
+  .input-group-input::placeholder{
+    font-size: 1.6rem;
+  }
+  .btn{
+    width: fit-content;
+    font-size: 0.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .isloading{
+    color: white;
+    height: 30%;
+    width: 30%;
+    margin-left: 35%;
+    margin-top: 20%;
+    
+  }
+}
+

@@ -9,11 +9,12 @@ import { Combobox,
     ComboboxOption,
 } from '@reach/combobox';
 import { useState,useEffect } from 'react';
-import { AiOutlineLoading3Quarters} from 'react-icons/ai';
+import loadingimg from './loading anim.gif'
 
 
 const GymContent = () => {
     const {setGymResults, placeslibrary,gmap,gymResults} = useContext(DataContext);
+    const [isLoading,setIsloading] = useState()
 
     const {
         value,
@@ -23,14 +24,14 @@ const GymContent = () => {
         },
         clearSuggestions,
     } = usePlacesAutocomplete();
-    
+
+
+     /**Request object for the google maps places library api call*/
     const[objlocation,setObjloaction] = useState({
         location: {lat:51.50853, lng:-0.12574},
         radius: 5000,
         type: ['gym']
     })
-
-    const [isLoading,setIsloading] = useState()
 
     useEffect(()=>{
         placeslibrary?.nearbySearch(objlocation, (results)=>{
@@ -66,12 +67,12 @@ const GymContent = () => {
         })  
        }
 
- if(isLoading)return <AiOutlineLoading3Quarters className='isloading'/>
+ if(isLoading)return <img src={loadingimg} className='isloading'/>
   return (
     <div  className="Local-gym-block__content">
     <h1>FIND YOUR LOCAL GYM</h1>
     <Combobox onSelect={handleSelect}>
-        <ComboboxInput id="address"
+        <ComboboxInput 
         className="input input-group-input"
         placeholder="Search address or city..."
         value={value}
@@ -84,11 +85,11 @@ const GymContent = () => {
     </ComboboxPopover>
     </Combobox>
     <p>Or</p>
-    <button className="btn" id="myLocation" onClick={handleCurrentlocation}>
+    <button className="btn"  onClick={handleCurrentlocation}>
       <FaLocationArrow className='My-loctation-icon'/>
       USE MY LOCATION
     </button>
-    <div className="gym-list" id="gyms-info">
+    <div className="gym-list">
         {gymResults?.map((value)=>
         <section key={value.place_id} className="gym-list__content">
         <h1 className='gym-list__heading '>NAME:</h1>
