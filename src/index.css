@@ -193,6 +193,16 @@ border-radius: 1rem;
   
 }
 
+.open{
+  color: greenyellow;
+  font-size: 2rem;
+}
+
+.closed{
+  color: red;
+  font-size: 2rem;
+}
+
 
 
 @media screen and (max-width: 700px) {
@@ -236,4 +246,6 @@ border-radius: 1rem;
     
   }
 }
+
+
 

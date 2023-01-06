@@ -13,8 +13,9 @@ import loadingimg from './loading anim.gif'
 
 
 const GymContent = () => {
-    const {setGymResults, placeslibrary,gmap,gymResults} = useContext(DataContext);
+    const {setGymResults, placeslibrary,gmap,gymResults,isOpen} = useContext(DataContext);
     const [isLoading,setIsloading] = useState()
+    const [isOpenlist,setIsopenlist] = useState([])
 
     const {
         value,
@@ -40,6 +41,25 @@ const GymContent = () => {
         gmap?.panTo(objlocation?.location)
 
         },[objlocation,placeslibrary,gmap]);
+
+
+        useEffect(()=>{
+        if(gymResults)
+        for (const element of gymResults) {
+          placeslibrary.getDetails({
+            placeId: element.place_id,
+            fields: ['opening_hours','utc_offset_minutes']
+          },(places)=>{
+                       const isOpenNow= places?.opening_hours?.isOpen()
+                        if(isOpenNow) setIsopenlist([...isOpenlist,isOpenlist.push(true)])
+                        else if(isOpenNow===undefined) setIsopenlist([...isOpenlist,isOpenlist.push(false)])
+                        else setIsopenlist([...isOpenlist,isOpenlist.push(false)])
+                        
+                      })
+        }
+        },[gymResults])
+
+    
 
     const handleSelect = async(val)=>{
       setValue(val,false);
@@ -96,6 +116,8 @@ const GymContent = () => {
         <p className="gym-list__name">{value.name}</p>
         <h1 className='gym-list__heading'>RATING:</h1>
         <p className="gym-list__rating">{value.rating||'Not rated'}</p>
+        <h1 className='gym-list__heading'>Open:</h1>
+        <p className={value.opening_hours?.open_now?'open':'closed'}>{value.opening_hours?.open_now?'open':'Not open'}</p>
         </section>
         )}
     </div>
