@@ -22,7 +22,7 @@ const Map = () => {
         placeId: obj.place_id,
         fields: ['opening_hours','utc_offset_minutes']
       },(places)=>{
-                   const isOpenNow= places?.opening_hours.isOpen()
+                   const isOpenNow= places?.opening_hours?.isOpen()
                     if(isOpenNow) setIsopen(true) 
                     else if(isOpenNow===undefined) setIsopen(false)
                     else setIsopen(false)
