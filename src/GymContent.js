@@ -116,8 +116,6 @@ const GymContent = () => {
         <p className="gym-list__name">{value.name}</p>
         <h1 className='gym-list__heading'>RATING:</h1>
         <p className="gym-list__rating">{value.rating||'Not rated'}</p>
-        <h1 className='gym-list__heading'>Open:</h1>
-        <p className={value.opening_hours?.open_now?'open':'closed'}>{value.opening_hours?.open_now?'open':'Not open'}</p>
         </section>
         )}
     </div>
