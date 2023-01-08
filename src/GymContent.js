@@ -10,12 +10,11 @@ import { Combobox,
 } from '@reach/combobox';
 import { useState,useEffect } from 'react';
 import loadingimg from './loading anim.gif'
-
+import EachGym from './EachGym';
 
 const GymContent = () => {
-    const {setGymResults, placeslibrary,gmap,gymResults,isOpen} = useContext(DataContext);
+    const {setGymResults, placeslibrary,gmap,gymResults} = useContext(DataContext);
     const [isLoading,setIsloading] = useState()
-    const [isOpenlist,setIsopenlist] = useState([])
 
     const {
         value,
@@ -27,7 +26,7 @@ const GymContent = () => {
     } = usePlacesAutocomplete();
 
 
-     /**Request object for the google maps places library api call*/
+    /**Request object for the google maps places library api call parameter*/
     const[objlocation,setObjloaction] = useState({
         location: {lat:51.50853, lng:-0.12574},
         radius: 5000,
@@ -40,24 +39,10 @@ const GymContent = () => {
           })
         gmap?.panTo(objlocation?.location)
 
-        },[objlocation,placeslibrary,gmap]);
+        },[objlocation,placeslibrary]);
 
 
-        useEffect(()=>{
-        if(gymResults)
-        for (const element of gymResults) {
-          placeslibrary.getDetails({
-            placeId: element.place_id,
-            fields: ['opening_hours','utc_offset_minutes']
-          },(places)=>{
-                       const isOpenNow= places?.opening_hours?.isOpen()
-                        if(isOpenNow) setIsopenlist([...isOpenlist,isOpenlist.push(true)])
-                        else if(isOpenNow===undefined) setIsopenlist([...isOpenlist,isOpenlist.push(false)])
-                        else setIsopenlist([...isOpenlist,isOpenlist.push(false)])
-                        
-                      })
-        }
-        },[gymResults])
+   
 
     
 
@@ -87,6 +72,8 @@ const GymContent = () => {
         })  
        }
 
+  
+
  if(isLoading)return <img src={loadingimg} className='isloading'/>
   return (
     <div  className="Local-gym-block__content">
@@ -111,12 +98,7 @@ const GymContent = () => {
     </button>
     <div className="gym-list">
         {gymResults?.map((value)=>
-        <section key={value.place_id} className="gym-list__content">
-        <h1 className='gym-list__heading '>NAME:</h1>
-        <p className="gym-list__name">{value.name}</p>
-        <h1 className='gym-list__heading'>RATING:</h1>
-        <p className="gym-list__rating">{value.rating||'Not rated'}</p>
-        </section>
+         <EachGym key={value.place_id} placeId={value.place_id}  name={value.name} rating={value.rating}/>
         )}
     </div>
   </div>

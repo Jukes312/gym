@@ -1,45 +1,24 @@
-import {GoogleMap,MarkerF,InfoWindowF} from '@react-google-maps/api';
-import { useContext,useState } from 'react';
+import {GoogleMap} from '@react-google-maps/api';
+import { useContext} from 'react';
 import DataContext from './context/DataContext';
 import gymIcon from './fitness.png'
+import Marker from './Marker';
 const center = {lat:51.50853, lng:-0.12574}
 
 const Map = () => {
-    const {setPlaceslibrary,placeslibrary, gymResults,setGmap,isOpen,setIsopen} = useContext(DataContext);
-    const [selectedMarker,setSelectedMarker] = useState(null);
-   
-    
+    const {setPlaceslibrary, gymResults,setGmap} = useContext(DataContext);
 
-    const OnMapLoad = (mappp) => {
-        setPlaceslibrary(new window.google.maps.places.PlacesService(mappp));
-        setGmap(mappp)
+   const OnMapLoad = (map) => {
+        setPlaceslibrary(new window.google.maps.places.PlacesService(map));
+        setGmap(map)
     };
 
+  
+   
+  
   return (
-    <GoogleMap id="map" center={center} zoom={13} onLoad={(mappp) => OnMapLoad(mappp) }  >
-       {gymResults?.map((obj)=> <MarkerF position={obj.geometry.location} key={obj.place_id} icon={{url:gymIcon}} onClick={()=> {setSelectedMarker(obj)
-      placeslibrary.getDetails({
-        placeId: obj.place_id,
-        fields: ['opening_hours','utc_offset_minutes']
-      },(places)=>{
-                   const isOpenNow= places?.opening_hours?.isOpen()
-                    if(isOpenNow) setIsopen(true) 
-                    else if(isOpenNow===undefined) setIsopen(false)
-                    else setIsopen(false)
-                    
-                  })}}/>)}
-       {selectedMarker?(
-        <InfoWindowF position={selectedMarker.geometry.location} onCloseClick={()=>{setSelectedMarker(null)
-        setIsopen(null)}}>
-          <div>
-            <h1>Name:</h1>
-            <p>{selectedMarker.name}</p>
-            <h1>Open:</h1>
-            <p className={isOpen?'open':'closed'}>{isOpen?'open':'Not open'}</p>
-            
-          </div>
-        </InfoWindowF>
-       ):null}
+    <GoogleMap id="map" center={center} zoom={13} onLoad={(map) => OnMapLoad(map) }  >
+       {gymResults?.map((obj)=> <Marker gym={obj} markPosition={obj.geometry.location} markKey={obj.place_id} key={obj.place_id} markIcon={{url:gymIcon}}/>)}
     </GoogleMap>
   )
 }
