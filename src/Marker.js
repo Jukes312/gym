@@ -18,15 +18,10 @@ const Marker = ({ markPosition,markKey, markIcon,gym}) => {
          fields: ['opening_hours','utc_offset_minutes']
        },(places)=>{
                     const isOpenNow= places?.opening_hours?.isOpen()
-                     if(isOpenNow) setIsopen(true) 
-                     else if(isOpenNow===undefined) setIsopen(false)
-                     else setIsopen(false)
+                     if(isOpenNow)  setSelectedMarker({name:gym.name,open:true,location:gym.geometry.location})
+                     else if(isOpenNow===undefined) setSelectedMarker({name:gym.name,open:false,location:gym.geometry.location})
+                     else setSelectedMarker({name:gym.name,open:false,location:gym.geometry.location})
                    })
-       if(selectedMarker){
-        return
-       }else{
-        setSelectedMarker(gym)
-       }     
        
        handleScroll(gym);
       }

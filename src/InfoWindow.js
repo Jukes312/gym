@@ -9,13 +9,13 @@ const InfoWindow = ({selectedMarker,setSelectedMarker}) => {
   return (
     <>
         {selectedMarker?(
-        <InfoWindowF position={selectedMarker.geometry.location} onCloseClick={()=>{setSelectedMarker(null)
+        <InfoWindowF position={selectedMarker.location} onCloseClick={()=>{setSelectedMarker(null)
         setIsopen(null)}}>
           <div>
             <h1>Name:</h1>
             <p>{selectedMarker.name}</p>
             <h1>Open:</h1>
-            <p className={isOpen?'open':'closed'}>{isOpen?'open':'Not open'}</p>
+            <p className={selectedMarker.open?'open':'closed'}>{selectedMarker.open?'Open':'Closed'}</p>
             
           </div>
         </InfoWindowF>
