@@ -203,6 +203,22 @@ border-radius: 1rem;
   font-size: 2rem;
 }
 
+.direction{
+  display: flex;
+}
+
+.direction__distance{
+ padding-left: 14rem;
+  font-size: 2.5rem;
+  color: green;
+}
+
+.direction__time{
+  padding-left: 15rem;
+  font-size: 2.5rem;
+  color: green;
+}
+
 
 
 @media screen and (max-width: 700px) {

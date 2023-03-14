@@ -13,7 +13,7 @@ import loadingimg from './loading anim.gif'
 import EachGym from './EachGym';
 
 const GymContent = () => {
-    const {setGymResults, placeslibrary,gmap,gymResults} = useContext(DataContext);
+    const {setGymResults, placeslibrary,gmap,gymResults,setOrigin,setObjloaction,objlocation} = useContext(DataContext);
     const [isLoading,setIsloading] = useState()
 
     const {
@@ -26,12 +26,7 @@ const GymContent = () => {
     } = usePlacesAutocomplete();
 
 
-    /**Request object for the google maps places library api call parameter*/
-    const[objlocation,setObjloaction] = useState({
-        location: {lat:51.50853, lng:-0.12574},
-        radius: 5000,
-        type: ['gym']
-    })
+   
 
     useEffect(()=>{
         placeslibrary?.nearbySearch(objlocation, (results)=>{
@@ -47,6 +42,7 @@ const GymContent = () => {
     
 
     const handleSelect = async(val)=>{
+      setOrigin(val)
       setValue(val,false);
       clearSuggestions();
       const results = await getGeocode({address:val})
@@ -61,14 +57,19 @@ const GymContent = () => {
 
     const handleCurrentlocation=()=>{
         setIsloading(true)
-        navigator.geolocation.getCurrentPosition( (postion)=>{
+         
+        navigator.geolocation.getCurrentPosition( async (postion)=>{
             setIsloading(false);
+            const geocoder = new window.google.maps.Geocoder();
+            const result = await geocoder.geocode({ location: {lat:postion.coords.latitude,lng:postion.coords.longitude}})
+            setOrigin(await result.results[0].formatted_address)
+       
             setObjloaction({
                 location: {lat:postion.coords.latitude,lng:postion.coords.longitude},
                 radius: 5000,
                 type: ['gym']
               })
-            
+
         })  
        }
 
@@ -98,7 +99,7 @@ const GymContent = () => {
     </button>
     <div className="gym-list">
         {gymResults?.map((value)=>
-         <EachGym key={value.place_id} placeId={value.place_id}  name={value.name} rating={value.rating}/>
+         <EachGym key={value.place_id} placeId={value.place_id}  name={value.name} rating={value.rating} address={value.vicinity}/>
         )}
     </div>
   </div>
